@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entre-Mentes - Todo en uno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;color:#315f63;min-height:100vh;background-image:url("fondo.jpg");background-size:cover;background-attachment:fixed;background-position:center}
+body::before{content:"";position:fixed;inset:0;background:rgba(255,255,255,0.3);z-index:-1}
+header{width:100%;position:sticky;top:0;z-index:1000;background:rgba(45,91,96,0.92);backdrop-filter:blur(15px);border-bottom:1px solid rgba(255,255,255,0.35)}
+.header-container{max-width:1250px;margin:0 auto;padding:12px 25px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}.brand img{width:50px;height:50px;border-radius:50%;border:2px solid #fff;background:#fff;object-fit:cover}
+.welcome{font-family:'Playfair Display',serif;font-size:1.9rem;color:#fff}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav a{text-decoration:none;background:rgba(255,255,255,0.12);color:#fff;padding:9px 16px;border-radius:20px;font-size:0.82rem;font-weight:500;transition:0.3s}
+nav a:hover, nav a.activo{background:#fff;color:#2d5b60}
+main{max-width:1100px;margin:0 auto;padding:30px 25px}
+section{margin-bottom:45px}
+.linea{width:100px;height:4px;margin:0 auto 28px;border-radius:20px;background:linear-gradient(90deg,#70aeb0,#d5eeee)}
+.contenido{max-width:900px;margin:0 auto;padding:35px 40px;border-radius:28px;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);box-shadow:0 15px 35px rgba(70,100,110,0.16)}
+h1{text-align:center;font-family:'Playfair Display';color:#2d5b60;margin-bottom:15px}
+.sub{text-align:center;margin-bottom:30px;color:#5a8a8e}
+.routine{margin-bottom:30px}.routine h2{font-size:1.15rem;color:#2d5b60;margin-bottom:15px;padding-left:12px;border-left:4px solid #70aeb0}
+.item{margin:10px 0;padding:14px 18px;background:#fff;border-radius:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 3px 10px rgba(0,0,0,0.05)}
+.item.completed{background:#e8f5e9;text-decoration:line-through;opacity:0.8}
+.item button{background:#2d5b60;color:#fff;border:none;padding:7px 16px;border-radius:20px;cursor:pointer;font-weight:600}
+.item button:disabled{background:#7fb069}
+.message{text-align:center;font-weight:600;margin-top:10px;color:#2d5b60}
+.contactos-grid{display:flex;gap:25px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.contact-card{text-align:center;width:200px;background:#fff;padding:20px 15px;border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,0.08)}
+.contact-card img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid #70aeb0;margin-bottom:12px;background:#fff}
+.contact-card h3{font-size:1rem;color:#2d5b60;margin-bottom:5px}
+.contact-card p{font-size:0.8rem;color:#666;line-height:1.4}
+
+/* BOTON Y MODAL ENCUESTA */
+.btn-encuesta{background:#0d2748;color:white;border:none;padding:12px 25px;border-radius:25px;font-size:0.9rem;cursor:pointer;margin:25px auto 0;display:block;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.btn-encuesta:hover{background:#123a6b}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;overflow:auto;padding:20px}
+.modal-contenido{max-width:850px;margin:40px auto;background:#0d2748;padding:30px;border-radius:15px;box-shadow:0 8px 25px rgba(0,0,0,0.35);position:relative;color:white}
+.modal-contenido h1{color:white}
+.modal-contenido .intro{text-align:center;color:#d9e7f7;margin-bottom:25px}
+.modal-contenido table{width:100%;border-collapse:separate;border-spacing:0 14px}
+.modal-contenido td{padding:5px;vertical-align:middle}
+.modal-contenido td:first-child{width:38%;font-weight:bold}
+.modal-contenido input,.modal-contenido select,.modal-contenido textarea{width:100%;padding:11px;border:1px solid #6685a8;border-radius:8px;background:#f7f9fc;color:#14263d;font-size:15px}
+.modal-contenido textarea{resize:vertical}
+.modal-contenido input[type="radio"],.modal-contenido input[type="checkbox"]{width:auto;margin-right:6px}
+.modal-contenido input[type="color"]{height:45px;padding:4px}
+.modal-contenido .opciones{line-height:2}
+.modal-contenido .botones{text-align:center;padding-top:20px}
+.modal-contenido input[type="submit"],.modal-contenido input[type="reset"]{width:auto;min-width:120px;margin:5px;border:none;cursor:pointer;font-weight:bold;background:white;color:#071a33}
+.modal-contenido input[type="submit"]:hover,.modal-contenido input[type="reset"]:hover{background:#c9d9eb}
+.cerrar{position:absolute;top:12px;right:18px;font-size:30px;color:white;cursor:pointer;font-weight:bold}
+.cerrar:hover{color:#c9d9eb}
+
+/* MAPA */
+.mapa-contenedor{margin-top:30px;border-radius:15px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.mapa-contenedor iframe{width:100%;height:320px;border:0;display:block}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-container">
+<div class="brand"><img src="logo.jpg" onerror="this.src='fondo.jpg'"><div style="color:#dff5f5;font-size:0.82rem">Salud Mental Estudiantil</div></div>
+<div class="welcome">Entre-Mentes</div>
+<nav>
+<a href="#inicio" class="activo">Inicio</a>
+<a href="#recursos">Recursos</a>
+<a href="#consejos">Consejos</a>
+<a href="#contactos">Contactos</a>
+</nav>
+</div>
+</header>
+
+<main>
+
+<section id="inicio">
+<div class="linea"></div>
+<div class="contenido">
+<h1>Bienvenidas a Entre-Mentes</h1>
+<p style="text-align:center; margin-top:20px; line-height:1.9; font-size:0.97rem;">
+Un espacio para cuidar nuestra mente, expresar lo que sentimos y aprender sobre nuestra salud mental.<br><br>
+Tenemos como objetivo principal acompañar a los estudiantes de la I.E. Dinamarca en el cuidado de su salud mental.<br><br>
+Podrás conocer recursos, aprender a identificar emociones difíciles y buscar orientación cuando la necesites.<br><br>
+<strong>Creemos que hablar de lo que sentimos es un acto de valentía, y queremos que sepas que no estás solo.</strong>
+</p>
+</div>
+</section>
+
+<section id="recursos">
+<div class="contenido">
+<h1>Recursos para tu bienestar</h1>
+<p class="sub">Pequeñas acciones que hacen una gran diferencia</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+<div class="item">🧘 Respiración consciente</div>
+<div class="item">📝 Diario de gratitud</div>
+<div class="item">🎵 Musicoterapia</div>
+<div class="item">🚶 Pausas activas</div>
+</div>
+</div>
+</section>
+
+<section id="consejos">
+<div class="contenido">
+<h1>Rutinas Interactivas de Bienestar</h1>
+<div class="routine">
+<h2>Rutina de Bienestar Emocional</h2>
+<div class="item" id="item1"><span>Respirar profundamente 5 minutos</span> <button onclick="marcarHecho('item1')">Hecho</button></div>
+<div class="item" id="item2"><span>Escribir 3 cosas por las que estás agradecido hoy</span> <button onclick="marcarHecho('item2')">Hecho</button></div>
+<div class="item" id="item3"><span>Escuchar una canción que te guste</span> <button onclick="marcarHecho('item3')">Hecho</button></div>
+<div class="item" id="item4"><span>Realizar un pequeño paseo</span> <button onclick="marcarHecho('item4')">Hecho</button></div>
+<div class="message" id="msg-emocional"></div>
+</div>
+<div class="routine">
+<h2>Rutina de Bienestar Físico</h2>
+<div class="item" id="phys1"><span>Estiramiento de brazos (30 seg)</span> <button onclick="marcarHecho('phys1')">Hecho</button></div>
+<div class="item" id="phys2"><span>Respiración profunda y lenta (1 min)</span> <button onclick="marcarHecho('phys2')">Hecho</button></div>
+<div class="item" id="phys3"><span>Elevación de talones (20 repeticiones)</span> <button onclick="marcarHecho('phys3')">Hecho</button></div>
+<div class="item" id="phys4"><span>Pequeño paseo o caminar en el lugar (5 min)</span> <button onclick="marcarHecho('phys4')">Hecho</button></div>
+<div class="message" id="msg-fisico"></div>
+</div>
+</div>
+</section>
+
+<!-- ================== SECCION CONTACTOS - CON ENCUESTA Y MAPA DENTRO ================== -->
+<div id="contactos" class="contenido">
+<h1 style="text-align:center">Contáctanos</h1>
+<p style="text-align:center;color:#5a8a8e;margin-bottom:20px">Somos el equipo de Entre-Mentes</p>
+
+<div class="contactos-grid">
+<div class="contact-card">
+<img src="foto1.jpeg" onerror="this.src='logo.jpg'">
+<h3>juliana serna hincapie</h3>
+<p>📱 3207657848<br>✉️ serna.juliana@gmail.com<br>analista - 11°</p>
+</div>
+<div class="contact-card">
+<img src="foto2.jpeg" onerror="this.src='logo.jpg'">
+<h3>zharik nicol zapata</h3>
+<p>📱 3194448998<br>✉️ zapata.zharik@gmail.com<br>diseñador - 11°</p>
+</div>
+<div class="contact-card">
+<img src="foto3.jpeg" onerror="this.src='logo.jpg'">
+<h3>isabella naranjo zuluaga</h3>
+<p>📱 3332483815<br>✉️ naranjo.isabella@gmail.com<br>programador - 11°</p>
+</div>
+<div class="contact-card">
+<img src="foto4.jpeg" onerror="this.src='logo.jpg'">
+<h3>sarah velez bolivar</h3>
+<p>📱 300 123 4567<br>✉️ velez.sarah@gmail.com<br>lider del protecto - 11°</p>
+</div>
+</div>
+
+<button class="btn-encuesta" onclick="document.getElementById('modalEncuesta').style.display='block'">📝 Responder Encuesta de Redes Sociales</button>
+
+<!-- MAPA I.E. DINAMARCA - AGREGADO EN CONTACTOS -->
+<div class="mapa-contenedor">
+<iframe src="https://www.google.com/maps?q=Institución+Educativa+Dinamarca,+Calle+91+%2365-119,+Medellín,+Colombia&output=embed" allowfullscreen="" loading="lazy"></iframe>
+</div>
+
+<p style="text-align:center;margin-top:25px;color:#70aeb0">¿Necesitas ayuda? Escríbenos, estamos para escucharte 💚</p>
+</div>
+
+</main>
+
+<!-- VENTANITA ENCUESTA (POPUP) -->
+<div id="modalEncuesta" class="modal">
+<div class="modal-contenido">
+<span class="cerrar" onclick="document.getElementById('modalEncuesta').style.display='none'">&times;</span>
+
+<h1>Encuesta sobre Redes Sociales</h1>
+<p class="intro">Encuesta sobre el uso y la influencia de las redes sociales en los jóvenes.</p>
+
+<form action="" method="post">
+<table>
+<tr><td><label for="name">Nombre:</label></td><td><input type="text" placeholder="Coloque su nombre" maxlength="30" required name="name" id="name"></td></tr>
+<tr><td><label for="lastname">Apellido:</label></td><td><input type="text" placeholder="Coloque su apellido" name="lastname" id="lastname"></td></tr>
+<tr><td><label for="age">Edad:</label></td><td><input type="number" placeholder="Edad" min="10" max="25" required name="age" id="age"></td></tr>
+<tr><td><label for="email">E-mail:</label></td><td><input type="email" placeholder="Correo electrónico" required name="email" id="email"></td></tr>
+<tr><td><label for="password">Contraseña:</label></td><td><input type="password" placeholder="Clave de usuario" maxlength="20" name="password" id="password"></td></tr>
+<tr><td><label for="description">¿Qué opinas de las redes sociales?</label></td><td><textarea name="description" id="description" placeholder="Escribe tu opinión..." rows="5"></textarea></td></tr>
+<tr><td><label for="study">¿Cuál es tu nivel de estudios?</label></td><td><select name="study" id="study"><option value="">Seleccione una opción</option><option value="bachillerato">Bachillerato</option><option value="tecnico">Técnico</option><option value="universidad">Universidad</option><option value="otro">Otro</option></select></td></tr>
+<tr><td><label>Género:</label></td><td class="opciones"><input type="radio" name="gender" value="hombre" id="man"><label for="man"> Hombre</label> <input type="radio" name="gender" value="mujer" id="woman"><label for="woman"> Mujer</label> <input type="radio" name="gender" value="otro" id="other"><label for="other"> Otro</label></td></tr>
+<tr><td><label>¿Qué redes sociales utilizas?</label></td><td class="opciones"><input type="checkbox" name="social[]" value="Instagram" id="instagram"><label for="instagram"> Instagram</label><br><input type="checkbox" name="social[]" value="TikTok" id="tiktok"><label for="tiktok"> TikTok</label><br><input type="checkbox" name="social[]" value="Facebook" id="facebook"><label for="facebook"> Facebook</label><br><input type="checkbox" name="social[]" value="YouTube" id="youtube"><label for="youtube"> YouTube</label><br><input type="checkbox" name="social[]" value="WhatsApp" id="whatsapp"><label for="whatsapp"> WhatsApp</label></td></tr>
+<tr><td><label for="color">¿Qué color representa mejor tu experiencia en redes?</label></td><td><input type="color" name="color" id="color" value="#071a33"></td></tr>
+<tr><td><label for="number">¿Cuántas horas al día utilizas redes sociales?</label></td><td><input type="number" name="hours" id="number" min="0" max="24" placeholder="Ejemplo: 4"></td></tr>
+<tr><td><label for="range">¿Qué tanto influyen las redes en tu vida?</label></td><td><input type="range" name="influence" id="range" min="1" max="10" value="5"><br><small>1 = Nada &nbsp;&nbsp; 10 = Mucho</small></td></tr>
+<tr><td><label for="url">Comparte una red social que uses:</label></td><td><input type="url" name="url" id="url" placeholder="https://www.ejemplo.com"></td></tr>
+<tr><td><label for="file">Sube una imagen relacionada con las redes sociales:</label></td><td><input type="file" name="file" id="file" accept="image/*"></td></tr>
+<tr><td colspan="2" class="botones"><input type="submit" value="Enviar encuesta"><input type="reset" value="Limpiar"></td></tr>
+</table>
+</form>
+
+</div>
+</div>
+
+<script>
+function marcarHecho(id){
+const item = document.getElementById(id);
+const btn = item.querySelector('button');
+item.classList.add('completed');
+btn.textContent = '¡Listo ✓';
+btn.disabled = true;
+}
+window.onclick = function(event) {
+  if (event.target == document.getElementById('modalEncuesta')) {
+    document.getElementById('modalEncuesta').style.display = "none";
+  }
+}
+</script>
+</body>
+</html>
